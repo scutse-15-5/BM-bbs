@@ -1,0 +1,51 @@
+{% extends head.html %}
+
+{% block editorHead %}
+<link rel="stylesheet" type="text/css" href="{{ static_url("simditor.css") }}">
+<script type="text/javascript" src="{{ static_url("simditor.js ") }}"></script>
+<script type="text/javascript" src="{{ static_url("editorStartup.js ") }}"></script>
+{% end %}
+
+{% block content %}
+    <ul class="breadcrumb">
+        <li> <a href="/">主页</a> </li>
+        <li class="active">{{ page['title'] }}</li>
+    </ul>
+
+    <div class="alert alert-info alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times; </button>
+        <h2>公告</h2>
+        <p>{{ notice }}</p>
+    </div>
+
+    {% for topic in topics %}
+        {% module Topic(topic, page["title"]) %}
+    {% end %}
+
+{% end %}
+
+{% block editorBody %}
+<div class="modal fade" id="myEditor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 50%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="form-group">
+                    <h4 style="float:left">输入标题</h4>
+                    <input type="text" class="form-control" id="title"/>
+                </div>
+            </div>
+            <div>
+                <textarea name="content" id="editor"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="clsEditor">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="subEditor">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+
+{% block fixNav %}
+<button class="btn btn-primary" data-toggle="modal" data-target="#myEditor">新帖</button>
+{% end %}

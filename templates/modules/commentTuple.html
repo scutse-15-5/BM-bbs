@@ -1,0 +1,17 @@
+<div class="media well">
+    <div style="float: left; max-width: 140px">
+        <img style="max-width: 140px; max-height: 140px" src=" {{ comment["icon"] }} " class="img-thumbnail"/>
+        <div style="margin-top: 20px">
+            {{ comment["name"] }}
+            <br/>
+            注册时间: {{ comment["time"] }}
+            <br/>
+            签名: {{comment ["signature"] }}
+            <br/>
+            发表时间：{{ comment["comment.time"] }}
+        </div>
+    </div>
+    <div style="margin-left: 160px">
+        {{ comment["content"] }}
+    </div>
+</div>

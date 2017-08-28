@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>登陆</title>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <form action="/login" method="POST" class="form-signin" style="max-width: 50%; margin-left: 25%">
+            {% raw xsrf_form_html() %}
+            <h2 class="form-signin-heading">登陆</h2>
+            <input class="form-control" placeholder="用户名" name="name" required autofocus>
+            <input type="password" class="form-control" placeholder="密码" name="password" required>
+            <div class="checkbox">
+                <label>
+                <input type="checkbox" value="remember-me">记住我
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block">登陆</button>
+        </form>
+        <form action="/login" method="POST" class="form-signin" style="max-width: 50%; margin-left: 25%">
+            {% raw xsrf_form_html() %} 
+            <h2 class="form-signin-heading">注册</h2>
+            <input id="regName" class="form-control" placeholder="用户名" name="name" required>
+            <input type="password" id="regPsw" class="form-control" placeholder="密码" name="password" required>
+            <input type="password" id="repPsw" class="form-control" placeholder="重复密码" name="repPassword" required>
+            <button class="btn btn-lg btn-default btn-block">注册</button>
+        </form>
+    </div>
+</body>
+</html>

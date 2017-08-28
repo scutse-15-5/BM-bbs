@@ -1,0 +1,93 @@
+{% extends head.html %} {% block editorHead %}
+<link rel="stylesheet" type="text/css" href="{{ static_url("simditor.css") }}">
+<script type="text/javascript" src="{{ static_url("simditor.js") }}"></script>
+<script type="text/javascript" src="{{ static_url("editorStartup.js") }}"></script>
+{% end %} {% block content %}
+<ul class="breadcrumb">
+    <li> <a href="/">主页</a> </li>
+    <li> <a href="/part/?partname={{ topic["partname"] }}">{{ topic["partname"] }}</a> </li>
+    <li class="active">{{ topic["title"] }}</li>
+</ul>
+<div class="page-header">
+    <h1>
+        {{ topic["title"] }}
+        <small style="float:right">{{ topic["name"] }}</small>
+    </h1>
+</div>
+
+<div class="media well">
+    <div style="float: left; max-width: 140px">
+        <img style="max-width: 140px; max-height: 140px" src=" {{ topic["icon"] }} " class="img-thumbnail" />
+        <div style="margin-top: 20px">
+            {{ topic["name"] }}
+            <br/> 注册时间: {{ topic["time"] }}
+            <br/> 签名: {{ topic["signature"]}}
+            <br/> 发表时间：{{ topic["topic.time"] }}
+        </div>
+    </div>
+    <div style="margin-left: 160px">
+        {{ topic["content"] }}
+    </div>
+</div>
+<div id = "comments">
+{% for comment in comments %}
+{% module Comment(comment) %}
+{% end %}
+</div>
+
+<script>
+    var host = 'ws://localhost:8000/topic/websocket';
+    var websocket = new WebSocket(host);
+
+    websocket.onmessage = function (evt) {
+        var new_comment = $.parseJSON(evt.data);
+        add_comment(new_comment)
+        
+    };
+
+    function add_comment(comment) {
+
+        var root_div = $('<div></div>');
+        root_div.addClass('media well');
+
+        var first_internal_div = $('<div></div>');
+        first_internal_div.attr('style', 'float: left; max-width: 140px');
+        var img = '<img style="max-width: 140px; max-height: 140px" src="' + comment["icon"] + '" class="img-thumbnail"/>';
+        first_internal_div.append(img);
+
+        var leaf_div = $('<div></div>');
+        leaf_div.attr('style', 'margin-top: 20px');
+        leaf_div.append(comment["name"] + "<br/>等级: 10<br/>注册时间: " + comment["atime"] + "<br/>签名: " + comment["signature"] + "<br/>" + comment["ctime"]);
+        leaf_div.appendTo(first_internal_div);
+        first_internal_div.appendTo(root_div);
+
+        var last_internal_div = $('<div></div>');
+        last_internal_div.attr('style', 'margin-left: 160px');
+        last_internal_div.append(comment["content"]);
+        last_internal_div.appendTo(root_div);
+
+        $("#comments").prepend(root_div);
+    }
+</script>
+
+{% end %} {% block editorBody %}
+<div class="modal fade" id="myEditor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 50%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="form-group">
+                    <h4>回复：</h4>
+                </div>
+            </div>
+            <div>
+                <textarea name="content" id="editor"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="clsEditor">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="subEditor">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %} {% block fixNav %}
+<button class="btn btn-primary" data-toggle="modal" data-target="#myEditor">添加</button> {% end %}

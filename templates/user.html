@@ -1,0 +1,65 @@
+{% extends head.html %}
+{% block editorHead %}
+<link rel="stylesheet" type="text/css" href="{{ static_url("simditor.css") }}">
+<script type="text/javascript" src="{{ static_url("simditor.js") }}"></script>
+<script type="text/javascript" src="{{ static_url("edit.js") }}"></script>
+<script type="text/javascript" src="{{ static_url("logout.js") }}"></script>
+{% end %}
+{% block content %}
+
+<div style="min-height: 160px ">
+    <img style="max-width: 140px; max-height: 140px; float: left" src=" {{ user["icon"] }} " class="img-thumbnail" data-toggle="modal" data-target="#imageUpload" />
+    <div style="margin-left: 160px">
+        <h2>{{ user["name"] }}</h2>
+        <br/>
+        <p>{{ user["signature"] }}</p>
+    </div>
+</div>
+
+<div>
+    <h3>{{ user["name"]}} 的帖子</h3>
+</div>
+
+{% for topic in topics %}
+{% module UserTopic(topic) %}
+{% end %}
+
+
+<div class="modal fade" id="imageUpload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="form-group">
+                <h4 style="float:left">头像链接：</h4>
+                <input type="text" class="form-control" id="icon"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cloUpload">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="uploadIcon">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+
+{% block editorBody %}
+<div class="modal fade" id="myEditor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 50%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>修改：</h4>
+            </div>
+            <div>
+                <textarea name="content" id="editor"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="clsEditor">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="subEditor">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+
+{% block fixNav %}
+<button type="button" class="btn btn-success" id="logout">注销</button>
+{% end %}
